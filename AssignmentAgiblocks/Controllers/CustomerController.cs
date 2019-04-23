@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AssignmentAgiblocks.Controllers
@@ -28,7 +27,7 @@ namespace AssignmentAgiblocks.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCompanyItemsByID(long counterPartID)
+        public async Task<ActionResult<Customer>> GetCustomerById(long counterPartID)
         {
             var companyItem = await _context.Customer.FindAsync(counterPartID);
 
@@ -41,7 +40,7 @@ namespace AssignmentAgiblocks.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Customer>> PostCompanyItem(Customer customer)
+        public async Task<ActionResult<Customer>> PostCostumer(Customer customer)
         {
             _context.Customer.Add(customer);
             await _context.SaveChangesAsync();
@@ -77,7 +76,7 @@ namespace AssignmentAgiblocks.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCompanyItem(long id, Customer item)
+        public async Task<IActionResult> PutCustomer(long id, Customer item)
         {
             if (id != item.CustomerId)
             {
@@ -91,7 +90,7 @@ namespace AssignmentAgiblocks.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCompanyItem(long id)
+        public async Task<IActionResult> DeleteCustomer(long id)
         {
             var companyItem = await _context.Customer.FindAsync(id);
 
