@@ -10,41 +10,41 @@ namespace AssignmentAgiblocks.Repositories
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T: class
     {
-        protected CustomerContext CustomerContext { get; set; }
+        protected RepositoryContext RepositoryContext { get; set; }
 
-        public RepositoryBase(CustomerContext customerContext)
+        public RepositoryBase(RepositoryContext repositoryContext)
         {
-            this.CustomerContext = customerContext;
+            this.RepositoryContext = repositoryContext;
         }
 
-        public IEnumerable<T> FindAll()
+        public async Task<IEnumerable<T>> FindAllAsync()
         {
-            return this.CustomerContext.Set<T>();
+            return await this.RepositoryContext.Set<T>().ToListAsync();
         }
 
-        public IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression)
+        public async Task<IEnumerable<T>> FindByConditionAsync(Expression<Func<T, bool>> expression)
         {
-            return this.CustomerContext.Set<T>().Where(expression);
+            return await this.RepositoryContext.Set<T>().Where(expression).ToListAsync();
         }
 
         public void Create(T entity)
         {
-            this.CustomerContext.Set<T>().Add(entity);
+            this.RepositoryContext.Set<T>().Add(entity);
         }
 
         public void Update(T entity)
         {
-            this.CustomerContext.Set<T>().Update(entity);
+            this.RepositoryContext.Set<T>().Update(entity);
         }
 
         public void Delete(T entity)
         {
-            this.CustomerContext.Set<T>().Remove(entity);
+            this.RepositoryContext.Set<T>().Remove(entity);
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            this.CustomerContext.SaveChanges();
+            await this.RepositoryContext.SaveChangesAsync();
         }
     }
 }

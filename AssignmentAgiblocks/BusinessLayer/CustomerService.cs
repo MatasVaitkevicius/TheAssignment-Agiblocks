@@ -19,7 +19,12 @@ namespace AssignmentAgiblocks.BusinessLayer
             _customerRepository = customerRepository;
         }
 
-        public void UploadFile(IFormFile file)
+        public async Task<IEnumerable<Customer>> GetAllCustomers()
+        {
+            return await _customerRepository.GetAllCustomersAsync();
+        }
+
+        public async Task UploadFile(IFormFile file)
         {
             using (var reader = new StreamReader(file.OpenReadStream()))
             {
@@ -28,26 +33,56 @@ namespace AssignmentAgiblocks.BusinessLayer
                 while (line != null)
                 {
                     var values = line.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    _customerRepository.Create(new Customer() { CounterPartID = values[0], CompanyName = values[1], IsBuyer = values[2], IsSeller = values[3], Phone = values[4], Fax = values[5] });
+                    await _customerRepository.CreateCustomerAsync(new Customer() { CounterPartID = values[0], CompanyName = values[1], IsBuyer = values[2], IsSeller = values[3], Phone = values[4], Fax = values[5] });
                     line = reader.ReadLineAsync().Result;
                 }
-                _customerRepository.Save();
             }
         }
 
-        public IEnumerable<Customer> GetAllCustomers()
+        public async Task GetCustomerById(int id)
         {
-            return _customerRepository.FindAll();
+            try
+            {
+                var customer = await _customerRepository.GetCustomerByIdAsync(id);
+
+                if (customer  == null)
+                {
+                    Console.WriteLine($"Owner with id: {id}, hasn't been found in db.");
+                    //return NotFound();
+                }
+                else
+                {
+                    Console.WriteLine($"Returned owner with id: {id}");
+                    //return Ok(customer);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Something went wrong inside GetOwnerById action: {ex.Message}");
+                //return HttpContext.Response.StatusCode(500, "Internal server error");
+            }
         }
 
-        public Customer GetById(int id)
+        public async Task RemoveCustomer(int id)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var customer = await _customerRepository.GetCustomerByIdAsync(id);
+                if (customer == null)
+                {
+                    //Console.WriteLine($"Owner with id: {id}, hasn't been found in db.");
+                    //return NotFound();
+                }
 
-        public async Task<IActionResult> Remove(int id)
-        {
-            throw new NotImplementedException();
+                await _customerRepository.DeleteCustomerAsync(customer);
+
+               // return NoContent();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Something went wrong inside DeleteOwner action: {ex.Message}");
+               // return StatusCode(500, "Internal server error");
+            }
         }
     }
 }

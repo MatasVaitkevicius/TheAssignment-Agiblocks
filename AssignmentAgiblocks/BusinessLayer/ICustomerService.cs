@@ -10,9 +10,9 @@ namespace AssignmentAgiblocks.BusinessLayer
 {
     public interface ICustomerService
     {
-        IEnumerable<Customer> GetAllCustomers();
-        void UploadFile(IFormFile file);
-        Customer GetById(int id);
-        Task<IActionResult> Remove(int id);
+        Task<IEnumerable<Customer>> GetAllCustomers();
+        Task UploadFile(IFormFile file);
+        Task GetCustomerById(int id);
+        Task RemoveCustomer(int id);
     }
 }

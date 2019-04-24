@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AssignmentAgiblocks.Migrations
 {
-    [DbContext(typeof(CustomerContext))]
-    partial class CustomerContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(RepositoryContext))]
+    partial class RepositoryContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AssignmentAgiblocks.Migrations
 {
-    [DbContext(typeof(CustomerContext))]
-    [Migration("20190424163652_InitialCreate")]
+    [DbContext(typeof(RepositoryContext))]
+    [Migration("20190424195943_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -16,82 +16,39 @@ namespace AssignmentAgiblocks.Controllers
     public class CustomerController : Controller
     {
         private ICustomerService _customerService;
-        private readonly CustomerContext _context;
 
-        public CustomerController(CustomerContext context, ICustomerService customerService)
+        public CustomerController(ICustomerService customerService)
         {
-            _context = context;
             _customerService = customerService;
         }
 
         [HttpGet]
-        public IEnumerable<Customer> GetCustomers()
+        public async Task<IActionResult> GetAllCustomers()
         {
-            return _customerService.GetAllCustomers();
+            var customers = await _customerService.GetAllCustomers();
+            return Ok(customers);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomerById(int customerId)
         {
-            var companyItem = await _context.Customers.FindAsync(customerId);
+            await _customerService.GetCustomerById(customerId);
 
-            if (companyItem == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(companyItem);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<Customer>> PostCostumer(Customer customer)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetCustomers), new { customerId = customer.CustomerId }, customer);
+            return Ok(_customerService.GetCustomerById(customerId));
         }
 
         [HttpPost("upload")]
-        public async Task<ActionResult<Customer>> UploadFile(IFormFile file)
+        public async Task<IActionResult> UploadFile(IFormFile file)
         {
-            _customerService.UploadFile(file);
+            await _customerService.UploadFile(file);
 
             return Ok();
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer(int id, Customer item)
-        {
-            if (id != item.CustomerId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(item).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCustomer(int id)
+        public async Task DeleteCustomer(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            await _customerService.RemoveCustomer(id);
         }
     }
 }

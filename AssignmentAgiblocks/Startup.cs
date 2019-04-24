@@ -25,7 +25,7 @@ namespace AssignmentAgiblocks
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors();
-            services.AddEntityFrameworkSqlite().AddDbContext<CustomerContext>();
+            services.AddEntityFrameworkSqlite().AddDbContext<RepositoryContext>();
             services.AddRepositoryDependencies();
             services.AddServicesDependencies();
 

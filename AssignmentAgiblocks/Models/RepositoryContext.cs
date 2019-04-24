@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace AssignmentAgiblocks.Models
 {
-    public class CustomerContext : DbContext
+    public class RepositoryContext : DbContext
     {
         public DbSet<Customer> Customers { get; set; }
 
-        public CustomerContext(DbContextOptions<CustomerContext> options)
+        public RepositoryContext(DbContextOptions<RepositoryContext> options)
             : base(options)
         {
         }

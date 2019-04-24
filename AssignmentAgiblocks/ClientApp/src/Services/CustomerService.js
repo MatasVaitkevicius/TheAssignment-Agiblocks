@@ -5,7 +5,6 @@ function customerService() {
     function uploadCustomersData(file) {
         const fd = new FormData()
         fd.append('file', file)
-        console.log(baseAPIUrl);
         fetch(`${baseAPIUrl}/api/customer/upload`, {
             method: 'POST',
             body: fd,
@@ -13,7 +12,6 @@ function customerService() {
     }
 
     function getCustomersData() {
-        console.log(baseAPIUrl);
         return fetch(`${baseAPIUrl}/api/customer`).then(data => data.json());
     };
 

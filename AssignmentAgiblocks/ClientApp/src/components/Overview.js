@@ -13,6 +13,7 @@ export class Overview extends Component {
 
     async componentDidMount() {
         const customer = await CustomerService().getCustomersData();
+        console.log(customer);
         this.setState({
             customers: customer
         });
