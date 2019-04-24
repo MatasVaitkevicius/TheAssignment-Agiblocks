@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssignmentAgiblocks.Migrations
 {
     [DbContext(typeof(CustomerContext))]
-    [Migration("20190423171116_InitialCreate")]
+    [Migration("20190424163652_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,7 @@ namespace AssignmentAgiblocks.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.ToTable("Customer");
+                    b.ToTable("Customers");
                 });
 #pragma warning restore 612, 618
         }

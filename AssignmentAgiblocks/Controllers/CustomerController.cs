@@ -1,4 +1,6 @@
-﻿using AssignmentAgiblocks.Models;
+﻿using AssignmentAgiblocks.BusinessLayer;
+using AssignmentAgiblocks.Models;
+using AssignmentAgiblocks.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,70 +15,57 @@ namespace AssignmentAgiblocks.Controllers
     [ApiController]
     public class CustomerController : Controller
     {
+        private ICustomerService _customerService;
         private readonly CustomerContext _context;
 
-        public CustomerController(CustomerContext context)
+        public CustomerController(CustomerContext context, ICustomerService customerService)
         {
             _context = context;
+            _customerService = customerService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+        public IEnumerable<Customer> GetCustomers()
         {
-            return await _context.Customer.ToListAsync();
+            return _customerService.GetAllCustomers();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomerById(long counterPartID)
+        public async Task<ActionResult<Customer>> GetCustomerById(int customerId)
         {
-            var companyItem = await _context.Customer.FindAsync(counterPartID);
+            var companyItem = await _context.Customers.FindAsync(customerId);
 
             if (companyItem == null)
             {
                 return NotFound();
             }
 
-            return companyItem;
+            return Ok(companyItem);
         }
 
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCostumer(Customer customer)
         {
-            _context.Customer.Add(customer);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetCustomers), new { customerId = customer.CustomerId }, customer);
         }
 
-        [HttpPost("Upload")]
+        [HttpPost("upload")]
         public async Task<ActionResult<Customer>> UploadFile(IFormFile file)
         {
+            _customerService.UploadFile(file);
 
-            string sFileExtension = Path.GetExtension(file.FileName).ToLower();
-            using (var reader = new StreamReader(file.OpenReadStream()))
-            {
-                var line = reader.ReadLineAsync().Result;
-                line = reader.ReadLineAsync().Result;
-                while (line != null)
-                {
-                    var values = line.Split(",");
-                    var counterPartID = values[0];
-                    var name = values[1];
-                    var isBuyer = values[2];
-                    var isSeller = values[3];
-                    var phone = values[4];
-                    var fax = values[5];
-
-                    _context.Customer.Add(new Customer(counterPartID, name, isBuyer, isSeller, phone, fax));
-                    await _context.SaveChangesAsync();
-                    line = reader.ReadLineAsync().Result;
-                }
-            }
             return Ok();
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer(long id, Customer item)
+        public async Task<IActionResult> PutCustomer(int id, Customer item)
         {
             if (id != item.CustomerId)
             {
@@ -90,16 +79,16 @@ namespace AssignmentAgiblocks.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCustomer(long id)
+        public async Task<IActionResult> DeleteCustomer(int id)
         {
-            var companyItem = await _context.Customer.FindAsync(id);
+            var customer = await _context.Customers.FindAsync(id);
 
-            if (companyItem == null)
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            _context.Customer.Remove(companyItem);
+            _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
 
             return NoContent();

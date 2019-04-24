@@ -8,7 +8,7 @@ namespace AssignmentAgiblocks.Models
 {
     public class CustomerContext : DbContext
     {
-        public DbSet<Customer> Customer { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         public CustomerContext(DbContextOptions<CustomerContext> options)
             : base(options)

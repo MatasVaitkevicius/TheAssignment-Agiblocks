@@ -1,3 +1,4 @@
+using AssignmentAgiblocks.DI;
 using AssignmentAgiblocks.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,11 +24,16 @@ namespace AssignmentAgiblocks
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddCors();
             services.AddEntityFrameworkSqlite().AddDbContext<CustomerContext>();
+            services.AddRepositoryDependencies();
+            services.AddServicesDependencies();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
+
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

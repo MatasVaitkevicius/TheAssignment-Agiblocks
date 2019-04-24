@@ -1,4 +1,5 @@
 ﻿import React, { Component, PropTypes } from 'react';
+import CustomerService from '../Services/CustomerService';
 
 export class UploadFile extends Component {
 
@@ -11,20 +12,17 @@ export class UploadFile extends Component {
     }
 
     onSubmitClick() {
-        const fd = new FormData()
-        fd.append('file', this.state.file)
-
-        fetch("https://localhost:5001/api/customer/Upload", {
-            method: 'POST',
-            body: fd,
-        })
+        CustomerService().uploadCustomersData(this.state.file);
     }
 
     render() {
         return (
             < div >
-                <input type="file" onChange={(e) => this.setState({ file: e.nativeEvent.target.files[0] })}/>
-            <button onClick={()=> this.onSubmitClick()}>Upload</button>
+                <input type="file" accept=".csv" onChange={(e) => this.setState({ file: e.nativeEvent.target.files[0] })} />
+                {
+                    this.state.file && (<button onClick={() => this.onSubmitClick()}>Upload</button>)
+                }
+               
             </div>
         )
     }

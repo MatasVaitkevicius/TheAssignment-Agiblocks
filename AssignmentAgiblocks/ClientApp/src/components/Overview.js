@@ -1,5 +1,6 @@
 ﻿import React, { Component, PropTypes } from 'react';
 import './Overview.css';
+import CustomerService from '../Services/CustomerService';
 
 export class Overview extends Component {
 
@@ -10,19 +11,14 @@ export class Overview extends Component {
         };
     }
 
-    componentDidMount() {
-        fetch('https://localhost:5001/api/customer')
-            .then(data => data.json())
-            .then((data) => {
-                console.log(data)
-
-                this.setState({ customers: data })
-            });
-
+    async componentDidMount() {
+        const customer = await CustomerService().getCustomersData();
+        this.setState({
+            customers: customer
+        });
     }
 
     render() {
-        console.log(this.state.customers)
         return (
             <div>
                 <table>
@@ -40,8 +36,8 @@ export class Overview extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.customers.length > 0 && this.state.customers.map((d) => (
-                            <tr>
+                        {this.state.customers.length > 0 && this.state.customers.map((d, i) => (
+                            <tr key={i}>
                                 <React.Fragment>
                                     <td>{d.customerId}</td>
                                     <td>{d.counterPartID}</td>
