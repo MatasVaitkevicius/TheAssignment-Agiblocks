@@ -8,6 +8,7 @@ namespace AssignmentAgiblocks.Repositories
 {
     public interface IRepositoryBase<T>
     {
+        Task<T> FindByExpression(Expression<Func<T, bool>> expression);
         Task<IEnumerable<T>> FindAllAsync();
         Task<IEnumerable<T>> FindByConditionAsync(Expression<Func<T, bool>> expression);
         void Create(T entity);

@@ -25,7 +25,7 @@ namespace AssignmentAgiblocks
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors();
 
-            services.AddEntityFrameworkSqlite().AddDbContext<RepositoryContext>(opt => opt.UseSqlite("Data Source=CustomerDatabase.db"));
+            services.AddEntityFrameworkSqlite().AddDbContext<RepositoryContext>(opt => opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddRepositoryDependencies();
             services.AddServicesDependencies();
 
@@ -40,7 +40,7 @@ namespace AssignmentAgiblocks
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, RepositoryContext context)
         {
             if (env.IsDevelopment())
             {
@@ -61,6 +61,7 @@ namespace AssignmentAgiblocks
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -77,6 +78,9 @@ namespace AssignmentAgiblocks
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
         }
     }
 }

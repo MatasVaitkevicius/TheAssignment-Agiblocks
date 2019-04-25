@@ -16,6 +16,11 @@ namespace AssignmentAgiblocks.Repositories
         {
             RepositoryContext = repositoryContext;
         }
+    
+        public async Task<T> FindByExpression(Expression<Func<T, bool>> expression)
+        {
+            return await RepositoryContext.Set<T>().FirstOrDefaultAsync(expression);
+        }
 
         public async Task<IEnumerable<T>> FindAllAsync()
         {

@@ -32,7 +32,6 @@ export class Overview extends Component {
                 <table>
                     <thead>
                         <tr>
-
                             <th>CustomerID</th>
                             <th>CounterPartID</th>
                             <th>Company Name</th>
@@ -54,7 +53,7 @@ export class Overview extends Component {
                                     <td>{d.isSeller}</td>
                                     <td>{d.phone}</td>
                                     <td>{d.fax}</td>
-                                    <button className="remove-customer-button" onClick={() => this.onDeleteCustomer(d.customerId)}>Remove Customer</button>
+                                    <button onClick={() => this.onDeleteCustomer(d.customerId)}>Remove Customer</button>
                                 </React.Fragment>
                             </tr>
                         ))}

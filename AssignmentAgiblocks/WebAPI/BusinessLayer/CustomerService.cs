@@ -1,5 +1,6 @@
 ﻿using AssignmentAgiblocks.Models;
 using AssignmentAgiblocks.Repositories;
+using AssignmentAgiblocks.WebAPI.Parser;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,12 @@ namespace AssignmentAgiblocks.BusinessLayer
     {
         private ICustomerRepository _customerRepository;
 
-        public CustomerService(ICustomerRepository customerRepository)
+        private IParserFactory _filerParserFactory;
+
+        public CustomerService(ICustomerRepository customerRepository, IParserFactory filerParserFactory)
         {
             _customerRepository = customerRepository;
+            _filerParserFactory = filerParserFactory;
         }
 
         public async Task<IEnumerable<Customer>> GetAllCustomers()
@@ -23,18 +27,10 @@ namespace AssignmentAgiblocks.BusinessLayer
         }
 
         public async Task UploadFile(IFormFile file)
-        {
-            using (var reader = new StreamReader(file.OpenReadStream()))
-            {
-                var line = reader.ReadLineAsync().Result;
-                line = reader.ReadLineAsync().Result;
-                while (line != null)
-                {
-                    var values = line.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    await _customerRepository.CreateCustomerAsync(new Customer() { CounterPartID = values[0], CompanyName = values[1], IsBuyer = values[2], IsSeller = values[3], Phone = values[4], Fax = values[5] });
-                    line = reader.ReadLineAsync().Result;
-                }
-            }
+        {  
+            var parser = _filerParserFactory.BuildFileParser(Path.GetExtension(file.FileName));
+            var customers = parser.ParseFile(file);
+            await _customerRepository.CreateCustomersAsync(customers);
         }
 
         public async Task<Customer> GetCustomerById(int id)
