@@ -1,12 +1,7 @@
 ﻿using AssignmentAgiblocks.BusinessLayer;
-using AssignmentAgiblocks.Models;
-using AssignmentAgiblocks.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace AssignmentAgiblocks.Controllers
@@ -25,30 +20,79 @@ namespace AssignmentAgiblocks.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCustomers()
         {
-            var customers = await _customerService.GetAllCustomers();
-            return Ok(customers);
+            try
+            {
+                var customers = await _customerService.GetAllCustomers();
+                return Ok(customers);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Some error in the GetAllCustomers method: {ex}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomerById(int customerId)
+        public async Task<IActionResult> GetCustomerById(int id)
         {
-            await _customerService.GetCustomerById(customerId);
+            try
+            {
+                var customer = await _customerService.GetCustomerById(id);
 
-            return Ok(_customerService.GetCustomerById(customerId));
+                if (customer == null)
+                {
+                    Console.WriteLine($"Customer with id: {id}, hasn't been found in db.");
+                    return NotFound();
+                }
+                else
+                {
+                    Console.WriteLine($"Returned customer with id: {id}");
+                    return Ok(customer);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Something went wrong inside GetCustomerById action: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+
         }
 
         [HttpPost("upload")]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
-            await _customerService.UploadFile(file);
-
-            return Ok();
+            try
+            {
+                await _customerService.UploadFile(file);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Something went wrong inside UploadFile action {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task DeleteCustomer(int id)
+        public async Task<IActionResult> DeleteCustomer(int id)
         {
-            await _customerService.RemoveCustomer(id);
+            try
+            {
+                var customer = await _customerService.GetCustomerById(id);
+                if (customer == null)
+                {
+                    Console.WriteLine($"Customer with id: {id}, hasn't been found in db.");
+                    return NotFound();
+                }
+
+                await _customerService.RemoveCustomer(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Something went wrong inside RemoveCustomer action: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }

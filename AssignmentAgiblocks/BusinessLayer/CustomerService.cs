@@ -1,11 +1,9 @@
 ﻿using AssignmentAgiblocks.Models;
 using AssignmentAgiblocks.Repositories;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AssignmentAgiblocks.BusinessLayer
@@ -39,50 +37,14 @@ namespace AssignmentAgiblocks.BusinessLayer
             }
         }
 
-        public async Task GetCustomerById(int id)
+        public async Task<Customer> GetCustomerById(int id)
         {
-            try
-            {
-                var customer = await _customerRepository.GetCustomerByIdAsync(id);
-
-                if (customer  == null)
-                {
-                    Console.WriteLine($"Owner with id: {id}, hasn't been found in db.");
-                    //return NotFound();
-                }
-                else
-                {
-                    Console.WriteLine($"Returned owner with id: {id}");
-                    //return Ok(customer);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Something went wrong inside GetOwnerById action: {ex.Message}");
-                //return HttpContext.Response.StatusCode(500, "Internal server error");
-            }
+            return await _customerRepository.GetCustomerByIdAsync(id);
         }
 
         public async Task RemoveCustomer(int id)
         {
-            try
-            {
-                var customer = await _customerRepository.GetCustomerByIdAsync(id);
-                if (customer == null)
-                {
-                    //Console.WriteLine($"Owner with id: {id}, hasn't been found in db.");
-                    //return NotFound();
-                }
-
-                await _customerRepository.DeleteCustomerAsync(customer);
-
-               // return NoContent();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Something went wrong inside DeleteOwner action: {ex.Message}");
-               // return StatusCode(500, "Internal server error");
-            }
+            await _customerRepository.DeleteCustomerAsync(await _customerRepository.GetCustomerByIdAsync(id));
         }
     }
 }

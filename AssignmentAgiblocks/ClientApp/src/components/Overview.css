@@ -20,3 +20,10 @@ caption {
     font-weight: bold;
     padding-top: 5px;
 }
+
+.remove-customer-button {
+    background-color: red;
+    border: solid;
+    color: white;
+    padding: 15px 32px;
+}

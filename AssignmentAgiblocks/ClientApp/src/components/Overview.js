@@ -13,7 +13,14 @@ export class Overview extends Component {
 
     async componentDidMount() {
         const customer = await CustomerService().getCustomersData();
-        console.log(customer);
+        this.setState({
+            customers: customer
+        });
+    }
+
+    async onDeleteCustomer(customerId) {
+        await CustomerService().deleteCustomerData(customerId);
+        const customer = await CustomerService().getCustomersData();
         this.setState({
             customers: customer
         });
@@ -33,7 +40,7 @@ export class Overview extends Component {
                             <th>Is Seller</th>
                             <th>Phone</th>
                             <th>Fax</th>
-
+                            <th>Remove Customer</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,6 +54,7 @@ export class Overview extends Component {
                                     <td>{d.isSeller}</td>
                                     <td>{d.phone}</td>
                                     <td>{d.fax}</td>
+                                    <button className="remove-customer-button" onClick={() => this.onDeleteCustomer(d.customerId)}>Remove Customer</button>
                                 </React.Fragment>
                             </tr>
                         ))}
