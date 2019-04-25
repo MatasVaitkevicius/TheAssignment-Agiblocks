@@ -1,8 +1,8 @@
-﻿using AssignmentAgiblocks.BusinessLayer;
+﻿using AssignmentAgiblocks.WebAPI.BusinessLayer;
 using AssignmentAgiblocks.WebAPI.Parser;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AssignmentAgiblocks.DI
+namespace AssignmentAgiblocks.WebAPI.DI
 {
     public static class ServicesDependencyInjection
     {

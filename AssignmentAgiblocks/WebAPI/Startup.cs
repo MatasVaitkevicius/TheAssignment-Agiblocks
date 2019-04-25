@@ -1,5 +1,6 @@
-using AssignmentAgiblocks.DI;
-using AssignmentAgiblocks.Models;
+using AssignmentAgiblocks.WebAPI.Controllers;
+using AssignmentAgiblocks.WebAPI.DI;
+using AssignmentAgiblocks.WebAPI.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace AssignmentAgiblocks
+namespace AssignmentAgiblocks.WebAPI
 {
     public class Startup
     {
@@ -65,8 +66,8 @@ namespace AssignmentAgiblocks
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                    "default",
+                    "{controller}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>
@@ -75,7 +76,7 @@ namespace AssignmentAgiblocks
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
+                    spa.UseReactDevelopmentServer("start");
                 }
             });
 

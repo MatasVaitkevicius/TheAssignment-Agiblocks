@@ -1,5 +1,4 @@
-﻿using System;
-namespace AssignmentAgiblocks.WebAPI.Parser
+﻿namespace AssignmentAgiblocks.WebAPI.Parser
 {
     public interface IParserFactory
     {

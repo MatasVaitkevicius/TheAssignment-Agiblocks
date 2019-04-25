@@ -1,47 +1,59 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
-public class ErrorHandlingMiddleware
+namespace AssignmentAgiblocks.WebAPI.Controllers
 {
-    private readonly RequestDelegate _next;
-
-    private readonly ILogger<ErrorHandlingMiddleware> _logger;
-
-    public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
+    public class ErrorHandlingMiddleware
     {
-        _next = next;
-        _logger = logger;
-    }
+        private readonly RequestDelegate _next;
 
-    public async Task Invoke(HttpContext context)
-    {
-        try
+        private readonly ILogger<ErrorHandlingMiddleware> _logger;
+
+        public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
         {
-            await _next(context);
+            _next = next;
+            _logger = logger;
         }
-        catch (Exception ex)
+
+        public async Task Invoke(HttpContext context)
         {
-            await HandleExceptionAsync(context, ex);
+            try
+            {
+                await _next(context);
+            }
+            catch (Exception ex)
+            {
+                await HandleExceptionAsync(context, ex);
+            }
         }
-    }
 
-    private Task HandleExceptionAsync(HttpContext context, Exception ex)
-    {
-        var code = HttpStatusCode.InternalServerError;
+        private Task HandleExceptionAsync(HttpContext context, Exception ex)
+        {
+            var code = HttpStatusCode.InternalServerError;
 
-        if (ex is ArgumentNullException) code = HttpStatusCode.NotFound;
-        else if (ex is UnauthorizedAccessException) code = HttpStatusCode.Unauthorized;
-        else if (ex is ArgumentException) code = HttpStatusCode.BadRequest;
+            switch (ex)
+            {
+                case ArgumentNullException _:
+                    code = HttpStatusCode.NotFound;
+                    break;
+                case UnauthorizedAccessException _:
+                    code = HttpStatusCode.Unauthorized;
+                    break;
+                case ArgumentException _:
+                    code = HttpStatusCode.BadRequest;
+                    break;
+            }
 
-        _logger.LogError(ex.Message);
+            _logger.LogError(ex.Message);
 
-        var result = JsonConvert.SerializeObject(new { error = ex.Message });
-        context.Response.ContentType = "application/json";
-        context.Response.StatusCode = (int)code;
-        return context.Response.WriteAsync(result);
+            var result = JsonConvert.SerializeObject(new { error = ex.Message });
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)code;
+            return context.Response.WriteAsync(result);
+        }
     }
 }

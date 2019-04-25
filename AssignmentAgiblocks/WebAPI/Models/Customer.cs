@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AssignmentAgiblocks.Models
+namespace AssignmentAgiblocks.WebAPI.Models
 {
     public class Customer
     {
         [Key]
         public int CustomerId { get; set; }
-        public string CounterPartID { get; set; }
+        public string CounterPartId { get; set; }
         public string CompanyName { get; set; }
         public string IsBuyer { get; set; }
         public string IsSeller { get; set; }

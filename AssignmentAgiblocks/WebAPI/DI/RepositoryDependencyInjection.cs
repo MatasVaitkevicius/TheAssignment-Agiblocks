@@ -1,7 +1,7 @@
-﻿using AssignmentAgiblocks.Repositories;
+﻿using AssignmentAgiblocks.WebAPI.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AssignmentAgiblocks.DI
+namespace AssignmentAgiblocks.WebAPI.DI
 {
     public static class RepositoryDependencyInjection
     {

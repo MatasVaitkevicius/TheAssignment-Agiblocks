@@ -1,9 +1,9 @@
-﻿using AssignmentAgiblocks.Models;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AssignmentAgiblocks.WebAPI.Models;
+using Microsoft.AspNetCore.Http;
 
-namespace AssignmentAgiblocks.BusinessLayer
+namespace AssignmentAgiblocks.WebAPI.BusinessLayer
 {
     public interface ICustomerService
     {

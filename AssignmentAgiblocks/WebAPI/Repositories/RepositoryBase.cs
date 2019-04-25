@@ -1,18 +1,18 @@
-﻿using AssignmentAgiblocks.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AssignmentAgiblocks.WebAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace AssignmentAgiblocks.Repositories
+namespace AssignmentAgiblocks.WebAPI.Repositories
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T: class
     {
         protected RepositoryContext RepositoryContext { get; set; }
 
-        public RepositoryBase(RepositoryContext repositoryContext)
+        protected RepositoryBase(RepositoryContext repositoryContext)
         {
             RepositoryContext = repositoryContext;
         }

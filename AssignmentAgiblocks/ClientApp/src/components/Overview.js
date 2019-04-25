@@ -1,5 +1,4 @@
 ﻿import React, { Component, PropTypes } from 'react';
-import './Overview.css';
 import CustomerService from '../Services/CustomerService';
 
 export class Overview extends Component {
@@ -29,7 +28,7 @@ export class Overview extends Component {
     render() {
         return (
             <div>
-                <table>
+                <table className="table table-hover">
                     <thead>
                         <tr>
                             <th>CustomerID</th>
@@ -47,13 +46,13 @@ export class Overview extends Component {
                             <tr key={i}>
                                 <React.Fragment>
                                     <td>{d.customerId}</td>
-                                    <td>{d.counterPartID}</td>
+                                    <td>{d.counterPartId}</td>
                                     <td>{d.companyName}</td>
                                     <td>{d.isBuyer}</td>
                                     <td>{d.isSeller}</td>
                                     <td>{d.phone}</td>
                                     <td>{d.fax}</td>
-                                    <button onClick={() => this.onDeleteCustomer(d.customerId)}>Remove Customer</button>
+                                    <button className="btn btn-warning" onClick={() => this.onDeleteCustomer(d.customerId)}>Remove Customer</button>
                                 </React.Fragment>
                             </tr>
                         ))}

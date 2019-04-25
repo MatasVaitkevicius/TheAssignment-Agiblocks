@@ -1,19 +1,18 @@
-﻿using AssignmentAgiblocks.Models;
-using AssignmentAgiblocks.Repositories;
-using AssignmentAgiblocks.WebAPI.Parser;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using AssignmentAgiblocks.WebAPI.Models;
+using AssignmentAgiblocks.WebAPI.Parser;
+using AssignmentAgiblocks.WebAPI.Repositories;
+using Microsoft.AspNetCore.Http;
 
-namespace AssignmentAgiblocks.BusinessLayer
+namespace AssignmentAgiblocks.WebAPI.BusinessLayer
 {
     public class CustomerService : ICustomerService
     {
-        private ICustomerRepository _customerRepository;
+        private readonly ICustomerRepository _customerRepository;
 
-        private IParserFactory _filerParserFactory;
+        private readonly IParserFactory _filerParserFactory;
 
         public CustomerService(ICustomerRepository customerRepository, IParserFactory filerParserFactory)
         {

@@ -1,9 +1,9 @@
-﻿using AssignmentAgiblocks.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using AssignmentAgiblocks.WebAPI.Models;
 
-namespace AssignmentAgiblocks.Repositories
+namespace AssignmentAgiblocks.WebAPI.Repositories
 {
     public class CustomerRepository: RepositoryBase<Customer>, ICustomerRepository
     {
@@ -30,7 +30,7 @@ namespace AssignmentAgiblocks.Repositories
 
         public async Task CreateCustomersAsync(IEnumerable<Customer> customers)
         {
-            customers.ToList().ForEach(c => Create(c));
+            customers.ToList().ForEach(Create);
             await SaveAsync();
         }
 

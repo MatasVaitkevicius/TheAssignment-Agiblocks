@@ -1,8 +1,8 @@
-﻿using AssignmentAgiblocks.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AssignmentAgiblocks.WebAPI.Models;
 
-namespace AssignmentAgiblocks.Repositories
+namespace AssignmentAgiblocks.WebAPI.Repositories
 {
     public interface ICustomerRepository : IRepositoryBase<Customer>
     {

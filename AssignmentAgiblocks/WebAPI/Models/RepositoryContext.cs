@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace AssignmentAgiblocks.Models
+namespace AssignmentAgiblocks.WebAPI.Models
 {
     public class RepositoryContext : DbContext
     {

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace AssignmentAgiblocks
+namespace AssignmentAgiblocks.WebAPI
 {
     public class Program
     {

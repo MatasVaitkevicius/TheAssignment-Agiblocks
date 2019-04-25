@@ -1,11 +1,10 @@
-﻿using AssignmentAgiblocks.BusinessLayer;
+﻿using System.Threading.Tasks;
+using AssignmentAgiblocks.WebAPI.BusinessLayer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 
-namespace AssignmentAgiblocks.Controllers
+namespace AssignmentAgiblocks.WebAPI.Controllers
 {
     [Route("api/customer")]
     [ApiController]
@@ -39,11 +38,9 @@ namespace AssignmentAgiblocks.Controllers
                 _logger.LogWarning($"Customer with id: {id}, hasn't been found in db.");
                 return NotFound();
             }
-            else
-            {
-                Console.WriteLine($"Returned customer with id: {id}");
-                return Ok(customer);
-            }
+
+            _logger.LogWarning($"Returned customer with id: {id}");
+            return Ok(customer);
         }
 
         [HttpPost("upload")]
@@ -61,14 +58,12 @@ namespace AssignmentAgiblocks.Controllers
             var customer = await _customerService.GetCustomerById(id);
             if (customer == null)
             {
-                Console.WriteLine($"Customer with id: {id}, hasn't been found in db.");
+                _logger.LogWarning($"Customer with id: {id}, hasn't been found in db.");
                 return NotFound();
             }
 
             await _customerService.RemoveCustomer(id);
             return NoContent();
-
-
         }
     }
 }

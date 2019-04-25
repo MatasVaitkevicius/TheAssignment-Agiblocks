@@ -1,5 +1,5 @@
-﻿using AssignmentAgiblocks.DI;
-using AssignmentAgiblocks.Models;
+﻿using AssignmentAgiblocks.WebAPI.DI;
+using AssignmentAgiblocks.WebAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
