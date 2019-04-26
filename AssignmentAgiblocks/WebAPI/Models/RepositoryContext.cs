@@ -6,7 +6,7 @@ namespace AssignmentAgiblocks.WebAPI.Models
     {
         public DbSet<Customer> Customers { get; set; }
 
-        public RepositoryContext(DbContextOptions<RepositoryContext> options)
+        public RepositoryContext(DbContextOptions options)
             : base(options)
         {
         }

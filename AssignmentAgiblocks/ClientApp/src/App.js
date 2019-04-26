@@ -5,7 +5,6 @@ import { Home } from './components/Home';
 import { UploadFile } from './components/UploadFile';
 import { Overview } from './components/Overview';
 
-
 export default class App extends Component {
     static displayName = App.name;
 

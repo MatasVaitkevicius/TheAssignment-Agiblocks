@@ -30,7 +30,6 @@ namespace AssignmentAgiblocks.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCustomerById(int id)
         {
-
             var customer = await _customerService.GetCustomerById(id);
 
             if (customer == null)
@@ -48,13 +47,11 @@ namespace AssignmentAgiblocks.WebAPI.Controllers
         {
             await _customerService.UploadFile(file);
             return Ok();
-
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
-
             var customer = await _customerService.GetCustomerById(id);
             if (customer == null)
             {
