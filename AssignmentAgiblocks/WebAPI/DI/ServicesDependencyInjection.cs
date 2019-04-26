@@ -9,7 +9,7 @@ namespace AssignmentAgiblocks.WebAPI.DI
         public static void AddServicesDependencies(this IServiceCollection services)
         {
             services.AddScoped<ICustomerService, CustomerService>()
-                .AddScoped<IParserFactory, ParserFactory>();
+                    .AddScoped<IParserFactory, ParserFactory>();
         }
     }
 }

@@ -80,7 +80,6 @@ namespace AssignmentAgiblocks.WebAPI
                 }
             });
 
-            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
         }
     }

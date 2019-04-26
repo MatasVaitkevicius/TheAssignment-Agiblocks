@@ -52,12 +52,11 @@ export class Overview extends Component {
                                     <td>{d.isSeller}</td>
                                     <td>{d.phone}</td>
                                     <td>{d.fax}</td>
-                                    <button className="btn btn-warning" onClick={() => this.onDeleteCustomer(d.customerId)}>Remove Customer</button>
+                                    <td><button className="btn btn-warning btn-sm" onClick={() => this.onDeleteCustomer(d.customerId)}>Remove Customer</button></td>
                                 </React.Fragment>
                             </tr>
                         ))}
                     </tbody>
-
                 </table>
             </div>
         )

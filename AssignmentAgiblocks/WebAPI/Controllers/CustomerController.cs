@@ -23,7 +23,7 @@ namespace AssignmentAgiblocks.WebAPI.Controllers
         public async Task<IActionResult> GetAllCustomers()
         {
             var customers = await _customerService.GetAllCustomers();
-            _logger.LogWarning($"Customer with id: , hasn't been found in db.");
+            _logger.LogInformation("Returned all customers");
             return Ok(customers);
         }
 
@@ -39,7 +39,7 @@ namespace AssignmentAgiblocks.WebAPI.Controllers
                 return NotFound();
             }
 
-            _logger.LogWarning($"Returned customer with id: {id}");
+            _logger.LogInformation($"Returned customer with id: {id}");
             return Ok(customer);
         }
 
@@ -63,6 +63,7 @@ namespace AssignmentAgiblocks.WebAPI.Controllers
             }
 
             await _customerService.RemoveCustomer(id);
+            _logger.LogInformation($"Customer with id: {id}, has been removed");
             return NoContent();
         }
     }
